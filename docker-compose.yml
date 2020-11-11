@@ -1,0 +1,41 @@
+# compose file format version based on Docker engine release 19.03.0+
+version: "3.8"
+
+services:
+  # define our individual services
+
+  flask:
+    # build the flask service using the Dockerfile in the flask directory
+    build: ./flask
+    # give our flask container a friendly name
+    container_name: flask
+    # instruct Docker to always restart the service
+    restart: always
+    # use environment to set any environment variables
+    environment:
+      - APP_NAME=MyFlaskApp
+    # exposes internal ports to other containers/services on the same network
+    # uWSGI will be serving our Flask application on port 8080
+    expose:
+      - 8080
+    # mount the container log directory to the local log directory
+    # consider changing this to /var/log/uwsgi:/var/log/uwsgi in production
+    # just make sure the directory exists before running docker-compose up --build
+    # volumes:
+    #   - ./log/uwsgi:/var/log/uwsgi
+
+  nginx:
+    # build the nginx service using the Dockerfile in the nginx directory
+    build: ./nginx
+    # give our nginx container a friendly name
+    container_name: nginx
+    # instruct Docker to always restart the service
+    restart: always
+    # any ports listed using `ports` will be exposed to the outside world
+    ports:
+      - "80:80"
+    # mount the container log directory to the local log directory
+    # consider changing this to /var/log/nginx:/var/log/nginx in production
+    # just make sure the directory exists before running docker-compose up --build
+    # volumes:
+    #   - ./log/nginx:/var/log/nginx
