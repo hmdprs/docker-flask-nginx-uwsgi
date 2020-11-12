@@ -1,4 +1,4 @@
-# docker-compose test
+# docker-compose-sample
 *A simple Flask app + Ngingx & uWSGI with Docker Compose*
 
 ## Run
